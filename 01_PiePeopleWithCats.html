@@ -1,0 +1,51 @@
+<html>
+<head>
+    <title>Люди с котами и без - ChartJS (http://chartjs.devexpress.com)</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script type='text/javascript' src='http://code.jquery.com/jquery-1.9.1.js'></script>
+    <script type='text/javascript' src="http://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script>
+    <script type='text/javascript' src="http://cdn3.devexpress.com/jslib/13.1.5/js/dx.chartjs.js"></script>
+</head>
+<body>
+    <style>
+
+    </style>
+
+    <!-- Markup -->
+    <div id="chartContainer" style="width:100%;height: 600px"></div>
+    <!-- Script -->
+    <script>
+
+        var dataSource = [
+            { category: "Не держат<br/>кошек", number: 172 },
+            { category: "Хотят завести<br/>кошку", number: 21 },
+            { category: "Держат<br/>кошку", number: 40 },
+            { category: "Держат две<br/>кошки", number: 8 }
+        ];
+
+        $("#chartContainer").dxPieChart({
+            dataSource: dataSource,
+            series: {
+                type: "donut",
+                argumentField: "category",
+                valueField: "number",
+                innerRadius: 0.5,
+                hoverMode: "none"
+            },
+            legend: {
+                verticalAlignment: "bottom",
+                horizontalAlignment: "center",
+                equalColumnWidth: true
+            },
+            tooltip: {
+                enabled: true,
+                customizeText: function () {
+                    return this.argumentText + "<br/>"
+                    + this.percentText + " (" + this.valueText + ")";
+                }
+            }
+        });
+    </script>
+    
+</body>
+</html>

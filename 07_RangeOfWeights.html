@@ -1,0 +1,66 @@
+﻿<html>
+<head>
+    <title>Распределение кошачьих весов - ChartJS (http://chartjs.devexpress.com)</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script type='text/javascript' src='http://code.jquery.com/jquery-1.9.1.js'></script>
+    <script type='text/javascript' src="http://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script>
+    <script type='text/javascript' src="http://cdn3.devexpress.com/jslib/13.1.5/js/dx.chartjs.js"></script>
+</head>
+<body>
+    <style>
+
+    </style>
+
+    <!-- Markup -->
+    <div id="chartContainer" style="width:100%;height: 600px"></div>
+    <!-- Script -->
+    <script>
+        var data = [
+    { breed: "Мейн-кун", number: 3, maxWeight: 10, minWeight: 4, avgWeight: 6.3 },
+    { breed: "Сиамская", number: 3, maxWeight: 7, minWeight: 2, avgWeight: 4.3 },
+    { breed: "Британец", number: 7, maxWeight: 7, minWeight: 0.8, avgWeight: 4.1 },
+    { breed: "Персидская", number: 4, maxWeight: 4.5, minWeight: 2.5, avgWeight: 3.7 },
+    { breed: "Беспородная", number: 34, maxWeight: 8, minWeight: 0.9, avgWeight: 4.1 },
+    { breed: "Манчкин", number: 1, maxWeight: 4, minWeight: 4, avgWeight: 4 },
+    { breed: "Русская", number: 1, maxWeight: 3.5, minWeight: 3.5, avgWeight: 3.5 },
+    { breed: "Шотландская", number: 2, maxWeight: 5.2, minWeight: 1.5, avgWeight: 3.3 },
+    { breed: "Ангорская", number: 1, maxWeight: 3, minWeight: 3, avgWeight: 3 },
+    { breed: "Тайская", number: 1, maxWeight: 2.5, minWeight: 2.5, avgWeight: 2.5 }
+        ];
+
+
+        $("#chartContainer").dxChart({
+            dataSource: data,
+            title: "Распределение кошачьих весов",
+            equalBarWidth: false,
+            commonSeriesSettings: {
+                argumentField: "breed"
+            },
+            series: [{
+                type: "rangebar",
+                rangeValue1Field: 'minWeight',
+                rangeValue2Field: 'maxWeight',
+                valueField: "male",
+                name: "Диапазон кошачьго веса"
+            }, {
+                type: "line",
+                valueField: "avgWeight",
+                name: "Средний вес"
+            }],
+            legend: {
+                verticalAlignment: "bottom",
+                horizontalAlignment: "center",
+                itemTextPosition: "right"
+            },
+            tooltip: {
+                enabled: true,
+                customizeText: function () {
+                    return this.valueText + " кг";
+                }
+            }
+        });
+
+    </script>
+    
+</body>
+</html>

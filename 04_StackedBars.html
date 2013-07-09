@@ -1,0 +1,103 @@
+﻿<html>
+<head>
+    <title>Породы кошек DevExpress - ChartJS (http://chartjs.devexpress.com)</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script type='text/javascript' src='http://code.jquery.com/jquery-1.9.1.js'></script>
+    <script type='text/javascript' src="http://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script>
+    <script type='text/javascript' src="http://cdn3.devexpress.com/jslib/13.1.5/js/dx.chartjs.js"></script>
+</head>
+<body>
+    <style>
+        #catInfo {
+            display:none;
+            position: absolute;
+            text-align: center;
+            background-color: white;
+            border: 1px solid #D4D1C8;
+            padding: 9px;
+            margin: 40px 40px;
+            box-shadow: rgba(128, 128, 128, 0.1) 0px 2px 2px, rgba(128, 128, 128, 0.1) 0px 2px 2px;
+            font-family: 'Segoe UI Light', 'Segoe UI', 'Helvetica Neue Light', 'Helvetica Neue', 'Trebuchet MS', Verdana;
+            font-weight: 200;
+            font-size: 24px;
+        }
+        #catInfo img {   
+            width: 260px;
+            height: 200px;
+        }
+    </style>
+
+    <!-- Markup -->
+    <div id="chartContainer" style="width:100%;height: 600px"></div>
+    <div id="catInfo">
+        <img id="catImage" alt=""/><br />
+        <span id="catName"></span><br />
+        <span id="catSex"></span>:&nbsp;<span id="catNumber"></span> шт.
+    </div>
+    <!-- Script -->
+    <script>
+        var dataSource = [
+    { breed: "Беспородная", number: 34, male: 15, female: 19, photo: "http://habrastorage.org/storage2/90e/284/632/90e2846328f747b025a154ff38e2d465.jpg" },
+    { breed: "Британец", number: 7, male: 3, female: 4, photo: "http://habrastorage.org/storage2/298/47a/a61/29847aa61fdeb493c52da7c869cd8a20.jpg" },
+    { breed: "Персидская", number: 4, male: 3, female: 1, photo: "http://habrastorage.org/storage2/606/1ef/827/6061ef827554129fa0bc34113f2d1e49.jpg" },
+    { breed: "Мейн-кун", number: 3, male: 3, female: 0, photo: "http://habrastorage.org/storage2/dc6/da7/908/dc6da790856b1deef00a2abfe9beda20.jpg" },
+    { breed: "Сиамская", number: 3, male: 1, female: 2, photo: "http://habrastorage.org/storage2/b1f/e1f/a10/b1fe1fa10fce984499de28ea5af8a54a.jpg" },
+    { breed: "Шотландская", number: 2, male: 2, female: 0, photo: "http://habrastorage.org/storage2/81d/92c/c56/81d92cc56a6f9195c9586cf7e7efb7f7.jpg" },
+    { breed: "Манчкин", number: 1, male: 0, female: 1, photo: "http://habrastorage.org/storage2/fb4/87a/c00/fb487ac0076e0c7fb49ba25857c25820.jpg" },
+    { breed: "Русская", number: 1, male: 0, female: 1, photo: "http://habrastorage.org/storage2/235/3b4/799/2353b479907c48b841352320e8001157.jpg" },
+    { breed: "Ангорская", number: 1, male: 0, female: 1, photo: "http://habrastorage.org/storage2/e4b/59d/366/e4b59d366ffa361540efc1ad3cc433d4.jpg" },
+    { breed: "Тайская", number: 1, male: 0, female: 1, photo: "http://habrastorage.org/storage2/174/665/e2c/174665e2cd77a3e99f0d7caf3ebadfcf.jpg" }
+        ];
+
+        var showCat = function (point) {
+            var $catInfo = $("#catInfo"),
+                $img = $("#catImage"),
+                $chartContainer = $("#chartContainer"),
+                offset = $chartContainer.offset();
+            point.select();
+
+            $img.attr("src", point.tag);
+            $img.attr("alt", point.argument);
+            $("#catName").html(point.argument);
+            $("#catNumber").text(point.originalValue);
+            $("#catSex").text(point.series.name);
+
+            $catInfo.show();
+            $catInfo.offset({
+                left: offset.left + $chartContainer.width() - $img.width() - 40,
+                top: offset.top + 80
+            });
+        };
+
+        $("#chartContainer").dxChart({
+            dataSource: dataSource,
+            title: "Породы и пол кошек DevExpress - v1.0",
+            equalBarWidth: false,
+            commonSeriesSettings: {
+                type: "stackedbar",
+                argumentField: "breed",
+                tagField: "photo",
+                hoverStyle: {
+                    hatching: "right"
+                }
+            },
+            series: [{
+                valueField: "male",
+                name: "Коты"
+            }, {
+                valueField: "female",
+                name: "Кошки"
+            }],
+            legend: {
+                verticalAlignment: "bottom",
+                horizontalAlignment: "center",
+                itemTextPosition: "right"
+            },
+            pointHover: showCat,
+            pointClick: showCat
+        });
+
+    </script>
+    
+</body>
+</html>

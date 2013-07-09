@@ -1,0 +1,53 @@
+﻿<html>
+<head>
+    <title>ChartJS (http://chartjs.devexpress.com)</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script type='text/javascript' src='http://code.jquery.com/jquery-1.9.1.js'></script>
+    <script type='text/javascript' src="http://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script>
+    <script type='text/javascript' src="http://cdn3.devexpress.com/jslib/13.1.5/js/dx.chartjs.js"></script>
+</head>
+<body>
+    <style>
+
+    </style>
+
+    <!-- Markup -->
+    <div id="chartContainer" style="width:100%;height: 600px"></div>
+    <!-- Script -->
+    <script>
+        var data = [
+    { breed: 'Британец', wool: 2 },
+    { breed: 'Цейлонская кошка', wool: 2.5 },
+    { breed: 'Шотландец', wool: 4 },
+    { breed: 'Корниш рекс', wool: 0.5 },
+    { breed: 'Серенгети', wool: 3 },
+    { breed: 'Сфинкс', wool: null },
+    { breed: 'Дворовая', wool: 5 },
+    { breed: 'Манул', wool: 10 }
+        ];
+
+        $("#chartContainer").dxChart({
+            dataSource: data,
+            series: {
+                argumentField: 'breed',
+                valueField: 'wool',
+                type: 'area'
+            },
+            valueAxis: {
+                title: 'Кг шерсти на единицу одежды'
+            },
+            legend: { visible: false },
+            argumentAxis: {
+                valueMarginsEnabled: false,
+                label: {
+                    overlappingBehavior: 'stagger'
+                }
+
+            }
+        });
+
+
+    </script>
+    
+</body>
+</html>

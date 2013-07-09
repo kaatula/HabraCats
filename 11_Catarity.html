@@ -1,0 +1,132 @@
+﻿<html>
+<head>
+    <title>ChartJS (http://chartjs.devexpress.com)</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script type='text/javascript' src='http://code.jquery.com/jquery-1.9.1.js'></script>
+    <script type='text/javascript' src="http://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script>
+    <script type='text/javascript' src="http://cdn3.devexpress.com/jslib/13.1.5/js/dx.chartjs.js"></script>
+</head>
+<body>
+    <style>
+        button {
+            margin-top: 40px;
+        }
+    </style>
+
+    <!-- Markup -->
+    <div id="chartContainer" style="width:100%;height: 600px"></div>
+    <button id="rangesButton">Показать коридоры значений</button>
+    <!-- Script -->
+    <script>
+        var data = [
+    { language: "C++", number: 2, maxTail: 50, minTail: 40, minScratches: 3, maxScratches: 10, avgTail: 45, avgScratches: 6 },
+    { language: "Delphi", number: 1, maxTail: 40, minTail: 40, minScratches: 4, maxScratches: 4, avgTail: 40, avgScratches: 4 },
+    { language: "Photoshop<br/>Action Script", number: 1, maxTail: 35, minTail: 35, minScratches: 13, maxScratches: 13, avgTail: 35, avgScratches: 13 },
+    { language: "PHP", number: 1, maxTail: 30, minTail: 30, minScratches: 10, maxScratches: 10, avgTail: 30, avgScratches: 10 },
+    { language: "python", number: 2, maxTail: 30, minTail: 30, minScratches: 0, maxScratches: 3, avgTail: 30, avgScratches: 1 },
+    { language: "C#", number: 41, maxTail: 50, minTail: 10, minScratches: 0, maxScratches: 1729, avgTail: 25, avgScratches: 64 },
+    { language: "JavaScript", number: 9, maxTail: 40, minTail: 10, minScratches: 0, maxScratches: 50, avgTail: 21, avgScratches: 8 }
+        ];
+
+
+        $("#chartContainer").dxChart({
+            dataSource: data,
+            title: "Кошковитость по языкам",
+            equalBarWidth: false,
+            commonAxisSettings: {
+                grid: { visible: true }
+            },
+            commonPaneSettings: {
+                border: { visible: true }
+            },
+            commonSeriesSettings: {
+                argumentField: "language",
+                point: {
+                    hoverMode: "allArgumentPoints",
+                    selectionMode: "allArgumentPoints"
+                }
+            },
+            series: [{
+                valueField: "avgTail",
+                name: "Длина хвоста",
+                color: "#5F8B95"
+            }, {
+                valueField: "avgScratches",
+                name: "Количество царапин",
+                axis: "scratches",
+                color: "#BA4D51"
+            }],
+            argumentAxis: { hoverMode: "allArgumentPoints" },
+            valueAxis: [{
+                title: {
+                    text: "Длина хвоста, см",
+                    font: {
+                        color: "#5F8B95"
+                    }
+                },
+                label: {
+                    font: {
+                        color: "#5F8B95"
+                    }
+                }
+
+            }, {
+                name: "scratches",
+                position: "right",
+                title: {
+                    text: "Количество царапин за игру",
+                    font: {
+                        color: "#BA4D51"
+                    }
+                },
+                label: {
+                    font: {
+                        color: "#BA4D51"
+                    }
+                }
+            }],
+            legend: {
+                verticalAlignment: "bottom",
+                horizontalAlignment: "center",
+                itemTextPosition: "right"
+            },
+            tooltip: {
+                enabled: true,
+                customizeText: function () {
+                }
+            }
+        });
+
+        $("button").on("click", function () {
+            var chart = $("#chartContainer").dxChart("instance"),
+                series = chart.option("series"),
+                $this = $(this);
+
+            if (series.length === 2) {
+                series.push({
+                    type: "rangeArea",
+                    rangeValue1Field: 'minTail',
+                    rangeValue2Field: 'maxTail',
+                    color: "#9BB4FF",
+                    name: "Диапазон длины хвоста"
+                });
+                series.push({
+                    type: "rangeArea",
+                    rangeValue1Field: 'minScratches',
+                    rangeValue2Field: 'maxScratches',
+                    color: "#FF7C75",
+                    name: "Диапазон количества царапин",
+                    axis: "scratches"
+                });
+                $this.text("Скрыть коридоры значений");
+            } else {
+                series.pop();
+                series.pop();
+                $this.text("Показать коридоры значений");
+            }
+            chart.option("series", series);
+        });
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,89 @@
+﻿<html>
+<head>
+    <title>Кормление и ярость кота - ChartJS (http://chartjs.devexpress.com)</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script type='text/javascript' src='http://code.jquery.com/jquery-1.9.1.js'></script>
+    <script type='text/javascript' src="http://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script>
+    <script type='text/javascript' src="http://cdn3.devexpress.com/jslib/13.1.5/js/dx.chartjs.js"></script>
+</head>
+<body>
+    <style>
+
+    </style>
+
+    <!-- Markup -->
+    <h4>Примерная порция корма за раз</h4>
+    <div id="rangeContainer" style="width: 400px;min-height:150px"></div>
+    <div id="gaugeContainer" style="width: 300px;height: 300px;margin-top: 20px;"></div>
+    <!-- Script -->
+    <script>
+        $("#rangeContainer").dxRangeSelector({
+            scale: {
+                startValue: 0,
+                endValue: 100,
+
+            },
+            selectedRange: {
+                startValue: 40,
+                endValue: 55
+            },
+            selectedRangeChanged: function (e) {
+                var p = Math.abs(50 - e.startValue) / 50,
+                    q = Math.abs(50 - e.endValue) / 50,
+                    base = 1.4,
+                    res;
+
+                p = (Math.pow(base, p) - 1) / (base - 1);
+                q = (Math.pow(base, q) - 1) / (base - 1);
+                res = (p + q) * 50;
+
+                gauge.needleValue(0, res / 100);
+            },
+            background: {
+                image: {
+                    url: 'http://placekitten.com/345/120',
+                    location: 'full'
+                }
+            },
+        });
+
+        var gauge = $('#gaugeContainer').dxCircularGauge({
+            scale: {
+                startValue: 0,
+                endValue: 1,
+                majorTick: {
+                    tickInterval: 0.1
+                },
+                label: {
+                    format: 'percent',
+                    precision: 0
+                }
+            },
+            rangeContainer: {
+                ranges: [
+                    {
+                        startValue: 0,
+                        endValue: 0.4,
+                        color: '#A6C567'
+                    },
+                    {
+                        startValue: 0.4,
+                        endValue: 0.8,
+                        color: '#FCBB69'
+                    },
+                    {
+                        startValue: 0.8,
+                        endValue: 1,
+                        color: '#E19094'
+                    }
+                ]
+            },
+            title: 'Вероятность общения <br/>с разъяренным котом',
+            needles: [{ value: 0.14 }]
+        }).dxCircularGauge('instance');
+
+
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,112 @@
+﻿<html>
+<head>
+    <title>Возраст котов с маштабированием - ChartJS (http://chartjs.devexpress.com)</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script type='text/javascript' src='http://code.jquery.com/jquery-1.9.1.js'></script>
+    <script type='text/javascript' src="http://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script>    
+    <script type='text/javascript' src="http://ajax.aspnetcdn.com/ajax/globalize/0.1.1/cultures/globalize.culture.ru-ru.js"></script>   
+    <script type='text/javascript' src="http://cdn3.devexpress.com/jslib/13.1.5/js/dx.chartjs.js"></script>
+</head>
+<body>
+    <style>
+
+    </style>
+
+    <!-- Markup -->
+    <div id="chartContainer" style="width:100%;height: 600px"></div> 
+    <div id="rangeSelectorContainer" style="width:100%;height: 140px"></div>
+    <!-- Script -->
+    <script>
+        Globalize.culture("ru");
+
+        var dataSource = [
+                { date: new Date(1357021367270), number: 10, years: 0 },
+                { date: new Date(1041402167270), number: 5, years: 10 },
+                { date: new Date(1325398967270), number: 12, years: 1 },
+                { date: new Date(978330167270), number: 1, years: 12 },
+                { date: new Date(946707767270), number: 1, years: 13 },
+                { date: new Date(1262326967270), number: 5, years: 3 },
+                { date: new Date(1199168567270), number: 4, years: 5 },
+                { date: new Date(1293862967270), number: 6, years: 2 },
+                { date: new Date(820477367270), number: 1, years: 17 },
+                { date: new Date(1230790967270), number: 3, years: 4 },
+                { date: new Date(1104560567270), number: 3, years: 8 },
+                { date: new Date(915171767270), number: 3, years: 14 },
+                { date: new Date(1167632567270), number: 2, years: 6 },
+                { date: new Date(1072938167270), number: 1, years: 9 }
+        ],
+            minYear = new Date(1995, 0, 1),
+            maxYear = new Date(2014, 0, 1);
+
+        var chartSeries = {
+            argumentField: "date",
+            valueField: "number",
+            tagField: "years",
+            type: "bar"
+        };
+        var rangeSeries = $.extend({}, chartSeries, { type: "area" });
+
+        var model = {};
+        model.chartOptions = {
+            title: "Распределение количества кошек по годам рождения",
+            argumentAxis: {
+                valueMarginsEnabled: false,
+                min: minYear,
+                max: maxYear
+            },
+            valueAxis: {
+                min: 0,
+                tickInterval: 1
+            },
+            dataSource: dataSource,
+            series: chartSeries,
+            legend: {
+                visible: false
+            },
+            tooltip: {
+                enabled: true,
+                argumentFormat: "year",
+                customizeText: function () {
+                    return this.argumentText
+                    + "<br/>В этом году родилось: "
+                    + this.valueText
+                    + "<br/>Возраст: " + this.point.tag;
+                }
+            }
+        };
+
+        model.rangeOptions = {
+            size: {
+                height: 120
+            },
+            margin: {
+                left: 10
+            },
+            dataSource: dataSource,
+            chart: {
+                series: rangeSeries
+            },
+            scale: {
+                startValue: minYear,
+                endValue: maxYear,
+                minRange: 'year'
+            },
+            behavior: {
+                callSelectedRangeChanged: "onMoving",
+                animationEnabled: false
+            },
+            sliderMarker: {
+                format: "year"
+            },
+            selectedRangeChanged: function (e) {
+                var zoomedChart = $("#chartContainer").dxChart("instance");
+                zoomedChart.zoomArgument(e.startValue, e.endValue);
+            }
+        };
+
+        $("#chartContainer").dxChart(model.chartOptions);
+        $("#rangeSelectorContainer").dxRangeSelector(model.rangeOptions);
+    </script>
+    
+</body>
+</html>
